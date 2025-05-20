@@ -1,254 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinematic Portfolio</title>
-    <style>
-        /* Reset and base styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
-            line-height: 1.6;
-            width: 100%;
-            overflow-x: hidden;
-        }
-        
-        /* Header and navigation */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-right: 40px;
-        }
-        
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-        
-        .logo {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 18px;
-            letter-spacing: 3px;
-            font-weight: 300;
-        }
-        
-        .social {
-            width: 20px;
-            height: 20px;
-        }
-        
-        .social svg {
-            width: 100%;
-            height: 100%;
-            fill: #fff;
-        }
-        
-        /* Video section - full viewport width */
-        .video-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-        }
-        
-        .video-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Projects - vertical stack */
-        .projects {
-            width: 100%;
-        }
-        
-        .project {
-            position: relative;
-            width: 100%;
-            height: 70vh; /* Tall enough to be impressive */
-            margin-bottom: 0; /* No gap between projects */
-        }
-        
-        .project-image {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .project-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        
-        .project-title {
-            font-size: 24px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-        
-        .project-description {
-            font-size: 16px;
-            font-weight: 300;
-            color: #ccc;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cinematic Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+      /* Fix double scrollbar issue */
+      height: 100%;
+      width: 100%;
+    }
+
+    /* Remove body overflow that was causing double scrollbar */
+    body {
+      overflow: auto;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      /* Make header transparent to overlap video */
+      background: transparent;
+    }
+
+    .logo {
+      font-size: 18px;
+      letter-spacing: 3px;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    .menu-icon {
+      display: block;
+      cursor: pointer;
+      width: 30px;
+      height: 25px;
+      margin-right: 15px;
+      z-index: 1100;
+    }
+
+    .menu-icon span {
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: white;
+      margin: 5px 0;
+      border-radius: 2px;
+    }
+
+    .social {
+      width: 24px;
+      height: 24px;
+    }
+
+    .social svg {
+      width: 100%;
+      height: 100%;
+      fill: #fff;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: rgba(0, 0, 0, 0.9);
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      width: 200px;
+      padding: 15px;
+      z-index: 1000;
+    }
+
+    .mobile-menu a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    #menu-toggle:checked + .menu-icon + .mobile-menu {
+      display: flex;
+    }
+
+    /* DESKTOP video */
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* PHONE layout */
+    @media (max-width: 768px) {
+      .video-container {
+        width: 100%;
+        height: 100vh; /* Fill the screen height */
+        position: relative;
+        /* Remove margin that was causing the black bar */
+        margin-top: 0;
+      }
+
+      .video-container video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Change to cover to avoid black bars */
+      }
+    }
+
+    /* Removed the overlay class that had 'display: none' */
+
+    .projects {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      /* Remove any gap between video and projects */
+    }
+
+    .project {
+      position: relative;
+      width: 100%;
+      height: auto;
+    }
+
+    .project-image {
+      position: relative;
+      width: 100%;
+      /* Removed any background overlay causing the black tint */
+    }
+
+    .project-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    .project-info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      /* Text shadow to ensure readability without the black tint */
+      text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+    }
+
+    .project-title {
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .project-description {
+      font-size: 16px;
+      font-weight: 300;
+      color: #fff; /* Changed from #ccc to improve visibility */
+    }
+
+    @media (max-width: 768px) {
+      .project-title {
+        font-size: 18px;
+      }
+
+      .project-description {
+        font-size: 14px;
+      }
+
+      .project-info {
+        bottom: 10px;
+        left: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header with navigation -->
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#work">Work</a></li>
-                <li><a href="#photography">Photography</a></li>
-                <li><a href="#about">About/Contact</a></li>
-            </ul>
-        </nav>
-        
-        <div class="logo">Floris Vroegh</div>
-        
-        <a href="https://instagram.com" class="social">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-        </a>
-    </header>
+  <header>
+    <div class="logo">Floris Vroegh</div>
 
-    <!-- Main video showcase -->
-    <section class="video-container">
-        <!-- 
-            VIDEO SPECIFICATIONS:
-            - File: background.mp4
-            - Resolution: 1920x1080 (Full HD) or 3840x2160 (4K) recommended
-            - Format: MP4 with H.264 codec
-            - Aspect ratio: 16:9
-            - Duration: 10-30 seconds recommended for loop
-            - File size: Keep under 10MB for optimal loading
-        -->
-        <video autoplay loop muted playsinline>
-            <source src="background.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="overlay"></div>
-    </section>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-icon" for="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+    <div class="mobile-menu">
+      <a href="#work">Work</a>
+      <a href="#photography">Photography</a>
+      <a href="#about">About/Contact</a>
+    </div>
 
-    <!-- Project list - vertical stack -->
-    <section class="projects">
-        <!-- 
-            IMAGE SPECIFICATIONS:
-            - Resolution: 1920x1080 (16:9) or higher
-            - Format: PNG with transparency or JPG with black background
-            - File size: Optimize to under 500KB if possible
-            - Color space: sRGB
-        -->
-        <div class="project">
-            <div class="project-image">
-                <img src="quick.png" alt="The Wilderness">
-                <div class="project-info">
-                    <h3 class="project-title">Film opdracht zo snel mogelijk met zo min mogelijke spullen</h3>
-                    <p class="project-description">Director: Your Name</p>
-                </div>
-            </div>
+    <a href="https://instagram.com" class="social">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+    </a>
+  </header>
+
+  <section class="video-container">
+    <video autoplay loop muted playsinline>
+      <source src="background.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </section>
+
+  <section class="projects">
+    <div class="project">
+      <div class="project-image">
+        <img src="quick.png" alt="The Wilderness" />
+        <div class="project-info">
+          <h3 class="project-title">Film opdracht zo snel mogelijk met zo min mogelijke spullen</h3>
+          <p class="project-description">Director: Your Name</p>
         </div>
-        
-        <div class="project">
-            <div class="project-image">
-                <img src="https://via.placeholder.com/1920x1080?text=Project+2" alt="Project 2">
-                <div class="project-info">
-                    <h3 class="project-title">Urban Reflections</h3>
-                    <p class="project-description">Director: Your Name</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="project">
-            <div class="project-image">
-                <img src="https://via.placeholder.com/1920x1080?text=Project+3" alt="Project 3">
-                <div class="project-info">
-                    <h3 class="project-title">Ocean Depths</h3>
-                    <p class="project-description">Director: Your Name</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="project">
-            <div class="project-image">
-                <img src="https://via.placeholder.com/1920x1080?text=Project+4" alt="Project 4">
-                <div class="project-info">
-                    <h3 class="project-title">Desert Solitude</h3>
-                    <p class="project-description">Director: Your Name</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="project">
-            <div class="project-image">
-                <img src="https://via.placeholder.com/1920x1080?text=Project+5" alt="Project 5">
-                <div class="project-info">
-                    <h3 class="project-title">Forest Whispers</h3>
-                    <p class="project-description">Director: Your Name</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="project">
-            <div class="project-image">
-                <img src="https://via.placeholder.com/1920x1080?text=Project+6" alt="Project 6">
-                <div class="project-info">
-                    <h3 class="project-title">Winter's Embrace</h3>
-                    <p class="project-description">Director: Your Name</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
