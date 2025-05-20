@@ -124,17 +124,20 @@
     @media (max-width: 768px) {
       .video-container {
         width: 100%;
-        height: 100vh; /* Fill the screen height */
+        height: auto;
         position: relative;
-        /* Remove margin that was causing the black bar */
         margin-top: 0;
+        /* Set aspect ratio 16:9 using padding trick */
+        padding-top: 56.25%; /* 9/16 = 0.5625 = 56.25% */
       }
 
       .video-container video {
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Change to cover to avoid black bars */
+        object-fit: cover;
       }
     }
 
